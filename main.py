@@ -150,6 +150,11 @@ if st.button("Generate Post", type="primary", use_container_width=True):
                 st.success("Post generated successfully!")
                 
                 st.subheader("Your Generated Post")
+                
+                # Styled post container
+                import html
+                escaped_for_html = html.escape(generated_post).replace('\n', '<br>')
+                
                 st.markdown(f"""
                 <div style="
                     background-color: #1a1a2e;
@@ -161,18 +166,11 @@ if st.button("Generate Post", type="primary", use_container_width=True):
                     line-height: 1.7;
                     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
                 ">
-                {generated_post.replace(chr(10), '<br>')}
+                {escaped_for_html}
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Copy button (using text area for easy copying)
-                st.text_area(
-                    "Copy your post:",
-                    value=generated_post,
-                    height=200,
-                    label_visibility="collapsed"
-                )
-                
+                             
                 # Stats
                 line_count = len([l for l in generated_post.split('\n') if l.strip()])
                 word_count = len(generated_post.split())
