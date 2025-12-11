@@ -1,6 +1,6 @@
 """
 LLM Helper Module
-Initializes the Groq LLM with Llama 3.2 model
+Initializes the Groq LLM with Llama model
 """
 import os
 from dotenv import load_dotenv
@@ -15,7 +15,7 @@ def get_llm(model_name: str = None):
     
     Args:
         model_name: Optional model name override. 
-                   Defaults to llama-3.2-90b-text-preview with fallback.
+                   Defaults to llama-3.3-70b-versatile.
     
     Returns:
         ChatGroq: Configured LLM instance
@@ -28,9 +28,9 @@ def get_llm(model_name: str = None):
             "Get your free API key at https://console.groq.com/"
         )
     
-    # Primary model with fallback option
+    # Use llama-3.3-70b-versatile as default (current recommended model)
     if model_name is None:
-        model_name = "llama-3.2-90b-text-preview"
+        model_name = "llama-3.3-70b-versatile"
     
     llm = ChatGroq(
         api_key=api_key,
@@ -49,8 +49,8 @@ def get_llm_with_fallback():
     Returns:
         ChatGroq: Configured LLM instance
     """
-    primary_model = "llama-3.2-90b-text-preview"
-    fallback_model = "llama-3.2-70b-versatile"
+    primary_model = "llama-3.3-70b-versatile"
+    fallback_model = "llama-3.1-70b-versatile"
     
     try:
         llm = get_llm(primary_model)
