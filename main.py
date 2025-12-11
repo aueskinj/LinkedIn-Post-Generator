@@ -2,9 +2,41 @@
 LinkedIn Post Generator - Streamlit Frontend
 A tool that generates LinkedIn posts mimicking a specific influencer's writing style.
 """
+import os
 import streamlit as st
 from few_shot import get_tags, get_length_categories, get_languages, get_post_summary
 from post_generator import generate_post, generate_post_with_custom_topic
+
+# Paths for auto-preprocessing
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+RAW_POSTS_PATH = os.path.join(DATA_DIR, "raw_posts.json")
+PROCESSED_POSTS_PATH = os.path.join(DATA_DIR, "processed_posts.json")
+
+
+def needs_preprocessing():
+    """Check if preprocessing is needed (no processed file or raw is newer)."""
+    if not os.path.exists(PROCESSED_POSTS_PATH):
+        return True
+    if not os.path.exists(RAW_POSTS_PATH):
+        return False
+    # Check if raw posts were modified after processed posts
+    raw_mtime = os.path.getmtime(RAW_POSTS_PATH)
+    processed_mtime = os.path.getmtime(PROCESSED_POSTS_PATH)
+    return raw_mtime > processed_mtime
+
+
+def run_preprocessing():
+    """Run the preprocessing pipeline."""
+    from preprocess import preprocess_posts
+    with st.spinner("🔄 Preprocessing posts (extracting metadata & unifying tags)..."):
+        try:
+            preprocess_posts()
+            st.success("✅ Preprocessing complete!")
+            st.rerun()
+        except Exception as e:
+            st.error(f"Preprocessing failed: {e}")
+            st.stop()
+
 
 # Page configuration
 st.set_page_config(
@@ -21,7 +53,12 @@ Powered by **Llama 3.2** via Groq with few-shot learning.
 
 st.divider()
 
-# Check if processed posts exist
+# Auto-run preprocessing if needed
+if needs_preprocessing():
+    st.info("📋 Raw posts detected. Running preprocessing automatically...")
+    run_preprocessing()
+
+# Load processed data
 try:
     tags = get_tags()
     languages = get_languages()
@@ -40,12 +77,9 @@ try:
 
 except FileNotFoundError:
     st.error("""
-    **Processed posts not found!**
+    **No posts data found!**
     
-    Please run the preprocessing script first:
-    ```bash
-    python preprocess.py
-    ```
+    Please add your LinkedIn posts to `data/raw_posts.json` and reload the page.
     """)
     st.stop()
 
@@ -159,7 +193,6 @@ if st.button("Generate Post", type="primary", use_container_width=True):
 st.divider()
 st.markdown("""
 <div style="text-align: center; color: #888; font-size: 0.8em;">
-    Built with Streamlit, LangChain & Llama 3.2 | 
-    <a href="https://console.groq.com/" target="_blank">Get Groq API Key</a>
+    Built with Streamlit, LangChain & Llama 3.2 by @aueskinj🫡
 </div>
 """, unsafe_allow_html=True)
