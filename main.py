@@ -152,10 +152,14 @@ if st.button("Generate Post", type="primary", use_container_width=True):
                 st.subheader("Your Generated Post")
                 st.markdown(f"""
                 <div style="
-                    background-color: #f0f2f6;
-                    padding: 20px;
-                    border-radius: 10px;
-                    border-left: 4px solid #0077b5;
+                    background-color: #1a1a2e;
+                    color: #e8e8e8;
+                    padding: 24px;
+                    border-radius: 12px;
+                    border-left: 5px solid #0077b5;
+                    font-size: 15px;
+                    line-height: 1.7;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
                 ">
                 {generated_post.replace(chr(10), '<br>')}
                 </div>
