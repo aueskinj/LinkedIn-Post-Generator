@@ -1,0 +1,92 @@
+[
+  {
+    "text": "Correlation does not imply causation. \n\nWe repeat this phrase endlessly in Statistics 101, yet we often ignore it when building predictive models in production. In standard Machine Learning, we are often satisfied with merely exploiting correlations to minimize MSE (Mean Squared Error). \n\nBut in policy-making or strategy, prediction isn't enough. We need interventions. \n\nIf I discount a product, will sales actually go up, or were those customers going to buy anyway? \n\nThis is where Causal AI enters the room. Moving from Judea Pearl's 'Association' rung to the 'Intervention' rung requires a different mindset. \n\nTools like DoWhy and CausalML are finally bridging the gap, allowing us to explicitly model confounders rather than hoping our random forest implicitly catches them.\n\nAre you integrating causal inference into your ML pipelines yet?",
+    "engagement": 845,
+    "line_count": 7,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "The hardest part of Financial Data Science isn't the modeling—it's the data engineering pipeline. \n\nProcessing tick-level data for backtesting requires a completely different architecture than standard batch processing. \n\nIf you are storing 10 years of tick data in a row-oriented database like Postgres, your queries will choke. You need column-oriented storage (like Parquet or KDB+) to handle the aggregation speed required for effective feature engineering.\n\nFurthermore, look-ahead bias is almost always an engineering failure, not a statistical one. If your system design allows your model to 'see' the close price before the trade execution timestamp, your Sharpe ratio is fiction.\n\nDesign for temporal correctness first, optimize for speed second.",
+    "engagement": 1205,
+    "line_count": 5,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "Difference-in-Differences (DiD) is a powerful tool in the econometrician's toolkit, but only if the parallel trends assumption holds. \n\nToo often, I see analysts applying DiD simply because they have a treatment and control group over time. \n\nAlways visualize your pre-treatment trends. If the lines aren't moving together before the intervention, your estimator is biased. \n\nRobustness checks are not optional.",
+    "engagement": 430,
+    "line_count": 4,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "Volatility is not a constant. \n\nThe Black-Scholes model assumes constant volatility, but anyone looking at an options chain knows the 'Volatility Smile' exists for a reason. \n\nOut-of-the-money puts are almost always more expensive than OTM calls because the market fears crashes more than it anticipates melt-ups. \n\nFinancial engineering is largely the art of correcting for the dangerous assumptions we make to get closed-form solutions.",
+    "engagement": 950,
+    "line_count": 4,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "Python is king for research. C++ (or Rust) is king for execution. \n\nThe 'Two-Language Problem' in quantitative finance is still very real. We prototype strategies in Jupyter notebooks using pandas, but that code is rarely production-ready for low-latency trading. \n\nThe bridge? \n\n1. Cython for critical loops. \n2. Vectorization (numpy) to push loops to C level. \n3. Or increasingly, using tools like Polars to get Rust-level performance with Python syntax. \n\nHow do you handle the research-to-production handover?",
+    "engagement": 780,
+    "line_count": 7,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "Instrumental Variables (IV) are magic when they work, but finding a valid instrument is harder than finding alpha. \n\nAn instrument must be correlated with the treatment but uncorrelated with the error term (exclusion restriction). \n\nIn financial time series, almost everything is endogenous. Everything affects everything. \n\nClaiming you found a perfect instrument in macro-finance usually means you just haven't looked hard enough for the connection yet.",
+    "engagement": 620,
+    "line_count": 4,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "Effective system design pattern for financial data: The Lambda Architecture.\n\n1. Speed Layer: Handles real-time streaming data (Kafka/Flink) for immediate signals.\n2. Batch Layer: Re-processes historical data (Spark/Airflow) for accuracy and model training.\n3. Serving Layer: Merges views for the query.\n\nComplexity is high, but for systems requiring both real-time decisions and deep historical context, it's often necessary.",
+    "engagement": 550,
+    "line_count": 5,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "Granger Causality is not true causality.\n\nJust because variable X forecasts variable Y does not mean X causes Y. It just means X contains information that helps predict Y. \n\nIn Causal AI, we care about the counterfactual: 'What would Y be if we forced X to change?' \n\nGranger causality can't tell you that. Structural Causal Models (SCM) can.",
+    "engagement": 890,
+    "line_count": 4,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "Monte Carlo simulations are computationally expensive but essential for path-dependent derivatives.\n\nIf you are pricing Asian options or Barrier options, analytical formulas often fall short. \n\nThe trick to system design here isn't just raw compute—it's variance reduction techniques. Control variates and antithetic variates can converge your simulation 10x faster than brute force.\n\nDon't just throw more hardware at the problem. Improve the math.",
+    "engagement": 1050,
+    "line_count": 4,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  },
+  {
+    "text": "Stop overfitting your backtests.\n\nIf you run 1,000 variations of a trading strategy and pick the one with the best Sharpe ratio, you haven't found a strategy. You've found noise.\n\nOut-of-sample testing is the bare minimum. Walk-forward optimization is better.\n\nBut the gold standard? Economic intuition. If you can't explain *why* the market inefficiency exists, your alpha will decay to zero.",
+    "engagement": 1340,
+    "line_count": 4,
+    "language": "English",
+    "tags": [
+      "General"
+    ]
+  }
+]
